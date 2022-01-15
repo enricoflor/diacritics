@@ -1,0 +1,45 @@
+#+title: diacritics.el
+#+author: Enrico Flor
+#+startup: content
+
+~diacritics~ is a tiny package for GNU Emacs that lets you insert
+special characters quickly and without changing input method.  It is
+inspired by the functionality that you get on MacOS when you press a
+key long enough: a popup that lets you select variants of the font
+(allegedly---I have never used a Mac). 
+
+With ~diacritics~, all you have to do is customize the alist
+~diacritics-alist~ with the appropriate strings to select what
+variants of what characters you want to have at your disposal.  Take,
+for example, the default value:
+
+#+begin_src emacs-lisp
+(setq diacritics-alist '(("a" . ("à" "á" "ä"))
+                         ("e" . ("è" "é"))))
+#+end_src
+
+This value for ~diacritics-alist~ gives ~à~ ~á~ and ~ä~ as variants of
+the base character ~a~.  Specifically, ~à~ is the first variant, ~á~
+is the second, and so on.  You can associate as many variants as you
+want to any base character (and each variant string can in fact be
+multiple characters), but only the first nine characters in any list
+will matter: the rest will be ignored completely.  This is because,
+once you select a base character, you will select the variant through
+a single digit.  The selection will be prompted in the echo area.
+
+The only command you need is ~diacritics-insert~.  When you invoke it,
+you select the set of characters by inputting the base character you
+want.  Just like with ~self-insert-command~ you can pass a numerical
+prefix argument to have the character inserted multiple times.  So,
+given the value for ~diacritics-alist~ above, you would have this
+behavior:
+
+#+begin_example
+diacritics-insert e 2         ⇒ é
+C-u 3 diacritics-insert a 3   ⇒ äää
+#+end_example
+
+In this gif, ~diacritics-insert~ was bound to ~C-x C-a~:
+
+#+CAPTION: diacritics-insert
+[[./diacritics.gif]]
