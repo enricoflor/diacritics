@@ -6,40 +6,71 @@
 special characters quickly and without changing input method.  It is
 inspired by the functionality that you get on MacOS when you press a
 key long enough: a popup that lets you select variants of the font
-(allegedly---I have never used a Mac). 
+(allegedly---I have never used a Mac).
 
 With ~diacritics~, all you have to do is customize the alist
-~diacritics-alist~ with the appropriate strings to select what
-variants of what characters you want to have at your disposal.  Take,
-for example, the default value:
+~diacritics-alist~ with the appropriate objects (formatted as
+characters) to select what variants of what characters you want to
+have at your disposal.  Take, for example, the default value:
 
 #+begin_src emacs-lisp
-(setq diacritics-alist '(("a" . ("à" "á" "ä"))
-                         ("e" . ("è" "é"))))
+(defvar diacritics-alist '((?e . (?è ?é ?ê ?ë ?ē ?ė ?ę))
+                           (?y . (?ÿ))
+                           (?u . (?û ?ü ?ù ?ú ?ū))
+                           (?i . (?î ?ï ?í ?ī ?į ?ì))
+                           (?o . (?ô ?ö ?ò ?ó ?œ ?ø ?ō ?õ))
+                           (?a . (?à ?á ?â ?ä ?æ ?ã ?å ?ā))
+                           (?s . (?ß ?ś ?š))
+                           (?l . (?ł))
+                           (?z . (?ž ?ź ?ż))
+                           (?c . (?ç ?ć ?č))
+                           (?n . (?ñ ?ń))))
 #+end_src
 
-This value for ~diacritics-alist~ gives ~à~ ~á~ and ~ä~ as variants of
-the base character ~a~.  Specifically, ~à~ is the first variant, ~á~
-is the second, and so on.  You can associate as many variants as you
-want to any base character (and each variant string can in fact be
-multiple characters), but only the first nine characters in any list
-will matter: the rest will be ignored completely.  This is because,
-once you select a base character, you will select the variant through
-a single digit.  The selection will be prompted in the echo area.
+For instance, this value for ~diacritics-alist~ gives ~ñ~ and ~ń~ as
+first and second variants of the base character ~n~.  You can
+associate as many variants as you want to any base character (and each
+variant string can in fact be multiple characters), but only the first
+nine characters in any list will matter: the rest will be ignored
+completely.  This is because, once you select a base character, you
+will select the variant through a single digit from 1 to 9.  The
+selection will be prompted in the echo area.
 
-The only command you need is ~diacritics-insert~.  When you invoke it,
-you select the set of characters by inputting the base character you
-want.  Just like with ~self-insert-command~ you can pass a numerical
-prefix argument to have the character inserted multiple times.  So,
-given the value for ~diacritics-alist~ above, you would have this
-behavior:
+You can either set a different value altogether for ~diacritics-alist~
+or, since it is an alist, if you want a different key map for, say,
+~c~, you can cons a new cons cell that will shadow the existing one:
 
-#+begin_example
-diacritics-insert e 2         ⇒ é
-C-u 3 diacritics-insert a 3   ⇒ äää
-#+end_example
+#+begin_src emacs-lisp
+(setq diacritics-alist (cons '(?c . (?o ?h))
+                             diacritics-alist))
+#+end_src
 
-In this gif, ~diacritics-insert~ was bound to ~C-x C-a~:
+All that ~diacritics~ does, technically, is adding to
+~post-self-insert-hook~ the function ~diacritics--insert~, which:
+
++ detects that you are keeping a self insertion key pressed (instead
+  of just quickly pressing it several times);
++ sets the correct transient key map according to the key you are
+  pressing and the values specified in ~diacritics-alist~;
++ displays the key map in the echo area to help you select the right
+  character.
+
+The transient key map will be unset automatically as soon as you
+either select one of the variants with the digit, or press any other
+key (which will be inserted normally).  If you notice that the minor
+mode isn't working as you'd expect you can try and tweak the value of
+~diacritics--timing~.  The default is 0.05, which means that for two
+key strokes to be recognized as one long key press they have to be
+closer than 0.05 seconds to each other.  The value must be small
+enough to make it impossible to repeat a key stroke fast enough that
+it be registered by ~diacritics--insert~ as one key press.  But
+depending on your system (regardless of Emacs internal) might have
+different ways of registering inputs on long key presses, and that
+might require this temporal value to be tweaked.
+
+The gif illustrates how this all works (based on the default value for
+~diacritics-alist~ above).
+
 
 #+CAPTION: diacritics-insert
 [[./diacritics.gif]]
