@@ -73,4 +73,4 @@ The gif illustrates how this all works (based on the default value for
 
 
 #+CAPTION: diacritics-insert
-[[./diacritics.gif]]
+[[./new-diacritics.gif]]
