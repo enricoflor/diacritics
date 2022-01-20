@@ -48,11 +48,25 @@
                            (?l . (?ł))
                            (?z . (?ž ?ź ?ż))
                            (?c . (?ç ?ć ?č))
-                           (?n . (?ñ ?ń)))
+                           (?n . (?ñ ?ń))
+                           (?E . (?È ?É ?Ê ?Ë ?Ē ?Ė ?Ę))
+                           (?Y . (?Ÿ))
+                           (?U . (?Û ?Ü ?Ù ?Ú ?Ū))
+                           (?I . (?Î ?Ï ?Í ?Ī ?Į ?Ì))
+                           (?O . (?Ô ?Ö ?Ò ?Ó ?Œ ?Ø ?Ō ?Õ))
+                           (?A . (?À ?Á ?Â ?Ä ?Æ ?Ã ?Å ?Ā))
+                           (?S . (?Ś ?Š))
+                           (?L . (?Ł))
+                           (?Z . (?Ž ?Ź ?Ż))
+                           (?C . (?Ç ?Ć ?Č))
+                           (?N . (?Ñ ?Ń)))
   "Alist associating prefix characters with a list of suffixes.
 Modify this alist according to your needs, as long as all items
 are formatted as characters.  For any list of suffixes, all
 the elements after the first nine are going to be ignored.")
+
+
+
 
 (defvar diacritics--timing 0.05
   "Maximum interval in seconds between keystrokes to count a long.

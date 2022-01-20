@@ -24,7 +24,18 @@ have at your disposal.  Take, for example, the default value:
                            (?l . (?ł))
                            (?z . (?ž ?ź ?ż))
                            (?c . (?ç ?ć ?č))
-                           (?n . (?ñ ?ń))))
+                           (?n . (?ñ ?ń))
+                           (?E . (?È ?É ?Ê ?Ë ?Ē ?Ė ?Ę))
+                           (?Y . (?Ÿ))
+                           (?U . (?Û ?Ü ?Ù ?Ú ?Ū))
+                           (?I . (?Î ?Ï ?Í ?Ī ?Į ?Ì))
+                           (?O . (?Ô ?Ö ?Ò ?Ó ?Œ ?Ø ?Ō ?Õ))
+                           (?A . (?À ?Á ?Â ?Ä ?Æ ?Ã ?Å ?Ā))
+                           (?S . (?Ś ?Š))
+                           (?L . (?Ł))
+                           (?Z . (?Ž ?Ź ?Ż))
+                           (?C . (?Ç ?Ć ?Č))
+                           (?N . (?Ñ ?Ń))))
 #+end_src
 
 For instance, this value for ~diacritics-alist~ gives ~ñ~ and ~ń~ as
